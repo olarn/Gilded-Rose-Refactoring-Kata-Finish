@@ -35,6 +35,12 @@ namespace GlideRoseRefactor.Console
 
                 glideRoseDelegate.ReduceSellIn(forItem: item);
 
+                if (glideRoseDelegate.IsConjured(item))
+                {
+                    glideRoseDelegate.DecreaseQualityTwice(item);
+                    continue;
+                }
+
                 if (glideRoseDelegate.IsBackstagePasses(item))
                 {
                     glideRoseDelegate.IncreaseQualityForBackstagePasses(item);

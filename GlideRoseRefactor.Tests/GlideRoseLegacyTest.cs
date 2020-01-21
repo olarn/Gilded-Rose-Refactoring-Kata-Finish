@@ -20,7 +20,7 @@ namespace GlideRoseRefactor.Tests
                 new Item { Name = "Elixir of the Mongoose",     SellIn = 5,  Quality = 7},
                 new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0,  Quality = 80},
                 new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 15, Quality = 20},
-                // new Item { Name = "Conjured Mana Cake",          SellIn = 3,  Quality = 6}
+                new Item { Name = "Conjured Mana Cake",          SellIn = 3,  Quality = 6}
             };
 
             var expectedItems = new List<Item> {
@@ -29,7 +29,7 @@ namespace GlideRoseRefactor.Tests
                 new Item { Name = "Elixir of the Mongoose",     SellIn = 4,  Quality = 6},
                 new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0,  Quality = 80},
                 new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 14, Quality = 21},
-                // new Item { Name = "Conjured Mana Cake",          SellIn = 2,  Quality = 3}
+                new Item { Name = "Conjured Mana Cake",          SellIn = 2,  Quality = 4}
             };
 
             // Act
