@@ -39,10 +39,26 @@ namespace GlideRoseRefactor.Tests
         public void AgedBrie_actually_increases_in_Quality_the_older_it_gets()
         {
             //Given
+            app.Items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 2, Quality = 0 } };
 
             //When
+            app.UpdateQuality();
 
             //Then
+            Assert.Equal(1, app.Items[0].Quality);
+        }
+
+        [Fact]
+        public void The_Quality_of_an_item_is_never_more_than_50()
+        {
+            //Given
+            app.Items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 2, Quality = 50 } };
+
+            //When
+            app.UpdateQuality();
+
+            //Then
+            Assert.Equal(50, app.Items[0].Quality);
         }
 
     }

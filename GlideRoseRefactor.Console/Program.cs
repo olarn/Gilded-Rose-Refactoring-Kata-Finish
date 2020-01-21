@@ -28,7 +28,12 @@ namespace GlideRoseRefactor.Console
         {
             foreach (var item in Items)
             {
-                item.SellIn -= 1;
+                ReduceSellIn(forItem: item);
+                if (IsAgedBrie(item))
+                {
+                    IncreaseQuality(item);
+                    continue;
+                }
                 ReduceQuality(forItem: item);
             }
         }
@@ -45,6 +50,18 @@ namespace GlideRoseRefactor.Console
             item.Quality -= 1;
             if (item.Quality < 0)
                 item.Quality = 0;
+        }
+
+        private bool IsAgedBrie(Item item)
+        {
+            return item.Name == "Aged Brie";
+        }
+
+        private void IncreaseQuality(Item item)
+        {
+            item.Quality += 1;
+            if (item.Quality > 50)
+                item.Quality = 50;
         }
     }
 }
