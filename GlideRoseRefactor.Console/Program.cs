@@ -28,12 +28,17 @@ namespace GlideRoseRefactor.Console
         {
             foreach (var item in Items)
             {
+                if (IsSulfuras(item))
+                    continue;
+
                 ReduceSellIn(forItem: item);
+
                 if (IsAgedBrie(item))
                 {
                     IncreaseQuality(item);
                     continue;
                 }
+
                 ReduceQuality(forItem: item);
             }
         }
@@ -62,6 +67,11 @@ namespace GlideRoseRefactor.Console
             item.Quality += 1;
             if (item.Quality > 50)
                 item.Quality = 50;
+        }
+
+        private bool IsSulfuras(Item item)
+        {
+            return item.Name.StartsWith("Sulfuras");
         }
     }
 }

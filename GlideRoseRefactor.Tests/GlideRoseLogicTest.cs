@@ -52,7 +52,7 @@ namespace GlideRoseRefactor.Tests
         public void The_Quality_of_an_item_is_never_more_than_50()
         {
             //Given
-            app.Items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 2, Quality = 50 } };
+            app.Items = new List<Item> { new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 2, Quality = 50 } };
 
             //When
             app.UpdateQuality();
