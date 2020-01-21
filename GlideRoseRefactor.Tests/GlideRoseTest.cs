@@ -42,8 +42,8 @@ namespace GlideRoseRefactor.Tests
             {
                 var expectedEachItem = expectedItems[i];
                 var actualItem = app.Items[i];
-                Assert.Equal(expectedEachItem.SellIn, actualItem.SellIn);
-                Assert.Equal(expectedEachItem.Quality, actualItem.Quality);
+                Assert.True(expectedEachItem.SellIn == actualItem.SellIn, String.Format("Name: {0}", actualItem.Name));
+                Assert.True(expectedEachItem.Quality == actualItem.Quality, String.Format("Name: {0}", actualItem.Name));
             }
         }
     }
