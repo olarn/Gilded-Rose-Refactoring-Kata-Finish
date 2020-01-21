@@ -21,40 +21,20 @@ namespace GlideRoseRefactor.Console
                 }
             };
             app.UpdateQuality();
+            app.PrintItems();
             System.Console.Read();
+        }
+
+        private void PrintItems()
+        {
+            foreach (var item in Items)
+                System.Console.WriteLine("Name: {0}, SellIn: {1}, Quality: {2}", item.Name, item.SellIn, item.Quality);
         }
 
         public void UpdateQuality()
         {
             var glideRoseDelegate = new GlideRoseDelegate();
-
-            foreach (var item in Items)
-            {
-                if (glideRoseDelegate.IsSulfuras(item))
-                    continue;
-
-                glideRoseDelegate.ReduceSellIn(forItem: item);
-
-                if (glideRoseDelegate.IsConjured(item))
-                {
-                    glideRoseDelegate.DecreaseQualityTwice(item);
-                    continue;
-                }
-
-                if (glideRoseDelegate.IsBackstagePasses(item))
-                {
-                    glideRoseDelegate.IncreaseQualityForBackstagePasses(item);
-                    continue;
-                }
-
-                if (glideRoseDelegate.IsAgedBrie(item))
-                {
-                    glideRoseDelegate.IncreaseQuality(item);
-                    continue;
-                }
-
-                glideRoseDelegate.ReduceQuality(forItem: item);
-            }
+            glideRoseDelegate.UpdateQuality(Items);
         }
     }
 

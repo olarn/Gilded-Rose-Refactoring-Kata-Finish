@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace GlideRoseRefactor.Console
 {
@@ -12,6 +13,38 @@ namespace GlideRoseRefactor.Console
         private int FiveDay = 5;
         private int ZeroDay = 0;
         private int MaxQuality = 50;
+
+        public void UpdateQuality(IList<Item> Items)
+        {
+            foreach (var item in Items)
+            {
+                if (IsSulfuras(item))
+                    continue;
+
+                ReduceSellIn(forItem: item);
+
+                if (IsConjured(item))
+                {
+                    DecreaseQualityTwice(item);
+                    continue;
+                }
+
+                if (IsBackstagePasses(item))
+                {
+                    IncreaseQualityForBackstagePasses(item);
+                    continue;
+                }
+
+                if (IsAgedBrie(item))
+                {
+                    IncreaseQuality(item);
+                    continue;
+                }
+
+                ReduceQuality(forItem: item);
+            }
+
+        }
 
         internal void ReduceSellIn(Item forItem)
         {
@@ -37,6 +70,11 @@ namespace GlideRoseRefactor.Console
             item.Quality += StandardQuality;
             if (item.Quality > MaxQuality)
                 item.Quality = MaxQuality;
+        }
+
+        internal bool IsConjured(Item item)
+        {
+            return item.Name.StartsWith("Conjured");
         }
 
         internal bool IsSulfuras(Item item)
@@ -80,9 +118,5 @@ namespace GlideRoseRefactor.Console
                 item.Quality = 0;
         }
 
-        internal bool IsConjured(Item item)
-        {
-            return item.Name.StartsWith("Conjured");
-        }
     }
 }
