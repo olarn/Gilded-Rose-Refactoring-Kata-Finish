@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GlideRoseRefactor.Console
 {
@@ -22,6 +21,11 @@ namespace GlideRoseRefactor.Console
                 }
             };
             app.UpdateQuality();
+
+            foreach (var item in app.Items)
+            {
+                System.Console.WriteLine("Name = {0}, SellIn = {1}, Quality = {2}", item.Name, item.SellIn, item.Quality);
+            }
             System.Console.Read();
         }
 
