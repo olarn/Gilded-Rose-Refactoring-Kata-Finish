@@ -35,6 +35,12 @@ namespace GlideRoseRefactor.Console
 
                 glideRoseDelegate.ReduceSellIn(forItem: item);
 
+                if (glideRoseDelegate.IsBackstagePasses(item))
+                {
+                    glideRoseDelegate.IncreaseQualityForBackstagePasses(item);
+                    continue;
+                }
+
                 if (glideRoseDelegate.IsAgedBrie(item))
                 {
                     glideRoseDelegate.IncreaseQuality(item);

@@ -61,5 +61,19 @@ namespace GlideRoseRefactor.Tests
             Assert.Equal(50, app.Items[0].Quality);
         }
 
+        [Fact]
+        public void Backstage_passes_increases_Quality_increase_1_when_sellIn_moreThan_10()
+        {
+            //Given
+            app.Items = new List<Item> { new Item { Name = "Backstage passes a X concert", SellIn = 12, Quality = 10 } };
+
+            //When
+            app.UpdateQuality();
+
+            //Then
+            Assert.Equal(11, app.Items[0].SellIn);
+            Assert.Equal(11, app.Items[0].Quality);
+        }
+
     }
 }
