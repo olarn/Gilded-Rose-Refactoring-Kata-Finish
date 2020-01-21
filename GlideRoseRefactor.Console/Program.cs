@@ -26,52 +26,24 @@ namespace GlideRoseRefactor.Console
 
         public void UpdateQuality()
         {
+            var glideRoseDelegate = new GlideRoseDelegate();
+
             foreach (var item in Items)
             {
-                if (IsSulfuras(item))
+                if (glideRoseDelegate.IsSulfuras(item))
                     continue;
 
-                ReduceSellIn(forItem: item);
+                glideRoseDelegate.ReduceSellIn(forItem: item);
 
-                if (IsAgedBrie(item))
+                if (glideRoseDelegate.IsAgedBrie(item))
                 {
-                    IncreaseQuality(item);
+                    glideRoseDelegate.IncreaseQuality(item);
                     continue;
                 }
 
-                ReduceQuality(forItem: item);
+                glideRoseDelegate.ReduceQuality(forItem: item);
             }
         }
-
-        private void ReduceSellIn(Item forItem)
-        {
-            var item = forItem;
-            item.SellIn -= 1;
-        }
-
-        private void ReduceQuality(Item forItem)
-        {
-            var item = forItem;
-            item.Quality -= 1;
-            if (item.Quality < 0)
-                item.Quality = 0;
-        }
-
-        private bool IsAgedBrie(Item item)
-        {
-            return item.Name == "Aged Brie";
-        }
-
-        private void IncreaseQuality(Item item)
-        {
-            item.Quality += 1;
-            if (item.Quality > 50)
-                item.Quality = 50;
-        }
-
-        private bool IsSulfuras(Item item)
-        {
-            return item.Name.StartsWith("Sulfuras");
-        }
     }
+
 }
