@@ -5,118 +5,126 @@ namespace GlideRoseRefactor.Console
 {
     public class GlideRoseDelegate
     {
-        private int OneDay = 1;
-        private int StandardQuality = 1;
-        private int DoubleQuality = 2;
-        private int TripleQuality = 3;
-        private int TenDay = 10;
-        private int FiveDay = 5;
-        private int ZeroDay = 0;
-        private int MaxQuality = 50;
+        const int MinQuality = 0;
+        const int OneDay = 1;
+        const int StandardQuality = 1;
+        const int TenDay = 10;
+        const int FiveDay = 5;
+        const int ZeroDay = 0;
+        const int MaxQuality = 50;
 
         public void UpdateQuality(IList<Item> Items)
         {
             foreach (var item in Items)
             {
-                if (IsSulfuras(item))
-                    continue;
-
                 ReduceSellIn(forItem: item);
+                SetZeroSellInIfLowerThanZero(item);
 
-                if (IsConjured(item))
-                {
-                    DecreaseQualityTwice(item);
+                var itemType = ItemTypeFor(item);
+                if (itemType == ItemType.Sulfuras)
                     continue;
-                }
 
-                if (IsBackstagePasses(item))
+                switch (itemType)
                 {
-                    IncreaseQualityForBackstagePasses(item);
-                    continue;
+                    case ItemType.AgedBrie:
+                        IncreaseQuality(item);
+                        SetMaxIfQualityGreaterThanMaximum(item);
+                        break;
+                    case ItemType.BackstagePasses:
+                        IncreaseQualityForBackstagePasses(item);
+                        SetMaxIfQualityGreaterThanMaximum(item);
+                        break;
+                    case ItemType.Conjured:
+                        DecreaseQualityTwice(item);
+                        SetZeroQualityIfLowerMinQuality(item);
+                        break;
+                    default:
+                        DecreaseQuality(forItem: item);
+                        SetZeroQualityIfLowerMinQuality(item);
+                        break;
                 }
-
-                if (IsAgedBrie(item))
-                {
-                    IncreaseQuality(item);
-                    continue;
-                }
-
-                ReduceQuality(forItem: item);
             }
-
         }
 
-        internal void ReduceSellIn(Item forItem)
+        ItemType ItemTypeFor(Item item)
         {
-            var item = forItem;
-            item.SellIn -= OneDay;
+            if (IsSulfuras(item)) return ItemType.Sulfuras;
+            if (IsConjured(item)) return ItemType.Conjured;
+            if (IsBackstagePasses(item)) return ItemType.BackstagePasses;
+            if (IsAgedBrie(item)) return ItemType.AgedBrie;
+            return ItemType.Other;
         }
 
-        internal void ReduceQuality(Item forItem)
+        void SetZeroQualityIfLowerMinQuality(Item item)
         {
-            var item = forItem;
-            item.Quality -= StandardQuality;
-            if (item.Quality < 0)
-                item.Quality = 0;
+            if (item.Quality < MinQuality)
+                item.Quality = MinQuality;
         }
 
-        internal bool IsAgedBrie(Item item)
+        void SetMaxIfQualityGreaterThanMaximum(Item item)
         {
-            return item.Name == "Aged Brie";
-        }
-
-        internal void IncreaseQuality(Item item)
-        {
-            item.Quality += StandardQuality;
             if (item.Quality > MaxQuality)
                 item.Quality = MaxQuality;
         }
 
-        internal bool IsConjured(Item item)
+        void SetZeroSellInIfLowerThanZero(Item item)
+        {
+            if (item.SellIn < ZeroDay)
+                item.SellIn = ZeroDay;
+        }
+
+        bool IsAgedBrie(Item item)
+        {
+            return item.Name == "Aged Brie";
+        }
+
+        bool IsConjured(Item item)
         {
             return item.Name.StartsWith("Conjured");
         }
 
-        internal bool IsSulfuras(Item item)
+        bool IsSulfuras(Item item)
         {
             return item.Name.StartsWith("Sulfuras");
         }
 
-        internal bool IsBackstagePasses(Item item)
+        bool IsBackstagePasses(Item item)
         {
             return item.Name.StartsWith("Backstage passes");
         }
 
-        internal void IncreaseQualityForBackstagePasses(Item item)
+        void ReduceSellIn(Item forItem)
         {
-            if (item.SellIn <= ZeroDay)
-            {
-                item.Quality = 0;
-                return;
-            }
+            forItem.SellIn -= OneDay;
+        }
 
-            if (item.SellIn <= FiveDay)
-            {
-                item.Quality += TripleQuality;
-                return;
-            }
+        void DecreaseQuality(Item forItem)
+        {
+            forItem.Quality -= StandardQuality;
+        }
 
-            if (item.SellIn <= TenDay)
-            {
-                item.Quality += DoubleQuality;
-                return;
-            }
+        void DecreaseQualityTwice(Item item)
+        {
+            item.Quality = item.Quality - (StandardQuality * 2);
+        }
 
+        void IncreaseQuality(Item item)
+        {
             item.Quality += StandardQuality;
         }
 
-        internal void DecreaseQualityTwice(Item item)
+        void IncreaseQualityForBackstagePasses(Item item)
         {
-            int TwiceStandardQuality = StandardQuality * 2;
-            item.Quality -= TwiceStandardQuality;
-            if (item.Quality == 0)
-                item.Quality = 0;
-        }
+            item.Quality += StandardQuality;
 
+            if (item.SellIn <= TenDay)
+                item.Quality += StandardQuality;
+
+            if (item.SellIn <= FiveDay)
+                item.Quality += StandardQuality;
+
+            if (item.SellIn <= ZeroDay)
+                item.Quality = MinQuality;
+        }
     }
 }

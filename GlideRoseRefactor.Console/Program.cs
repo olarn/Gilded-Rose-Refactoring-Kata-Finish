@@ -33,8 +33,7 @@ namespace GlideRoseRefactor.Console
 
         public void UpdateQuality()
         {
-            var glideRoseDelegate = new GlideRoseDelegate();
-            glideRoseDelegate.UpdateQuality(Items);
+            (new GlideRoseDelegate()).UpdateQuality(Items);
         }
     }
 
