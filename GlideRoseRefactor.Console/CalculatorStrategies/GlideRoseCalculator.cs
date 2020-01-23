@@ -2,34 +2,33 @@ namespace GlideRoseRefactor.Console
 {
     public class GlideRoseCalculator
     {
-        public void ReduceSellIn(Item item)
+        public void Calculate(Item item)
+        {
+            ReduceSellIn(item);
+            CalculateQuality(item);
+            SetZeroQualityIfLowerMinQuality(item);
+            SetMaxIfQualityGreaterThanMaximum(item);
+        }
+
+        private void ReduceSellIn(Item item)
         {
             item.SellIn -= ValueOf.OneDay;
-            SetZeroSellInIfLowerThanZero(item);
+            item.SellIn = item.SellIn < ValueOf.ZeroDay ? ValueOf.ZeroDay : item.SellIn;
         }
 
-        protected void SetZeroSellInIfLowerThanZero(Item item)
+        private void SetZeroQualityIfLowerMinQuality(Item item)
         {
-            if (item.SellIn < ValueOf.ZeroDay)
-                item.SellIn = ValueOf.ZeroDay;
+            item.Quality = item.Quality < ValueOf.MinQuality ? ValueOf.MinQuality : item.Quality;
         }
 
-        protected void SetMaxIfQualityGreaterThanMaximum(Item item)
+        protected virtual void SetMaxIfQualityGreaterThanMaximum(Item item)
         {
-            if (item.Quality > ValueOf.MaxQuality)
-                item.Quality = ValueOf.MaxQuality;
+            item.Quality = item.Quality > ValueOf.MaxQuality ? ValueOf.MaxQuality : item.Quality;
         }
 
-        protected void SetZeroQualityIfLowerMinQuality(Item item)
-        {
-            if (item.Quality < ValueOf.MinQuality)
-                item.Quality = ValueOf.MinQuality;
-        }
-
-        public virtual void CalculateQuality(Item item)
+        protected virtual void CalculateQuality(Item item)
         {
             item.Quality -= ValueOf.StandardQuality;
-            SetZeroQualityIfLowerMinQuality(item);
         }
     }
 }

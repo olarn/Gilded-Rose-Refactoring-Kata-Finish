@@ -2,7 +2,12 @@ namespace GlideRoseRefactor.Console
 {
     public class SulfurasCalculator : GlideRoseCalculator
     {
-        public override void CalculateQuality(Item item)
+        protected override void SetMaxIfQualityGreaterThanMaximum(Item item)
+        {
+            item.Quality = item.Quality;
+        }
+
+        protected override void CalculateQuality(Item item)
         {
             item.Quality = item.Quality;
         }

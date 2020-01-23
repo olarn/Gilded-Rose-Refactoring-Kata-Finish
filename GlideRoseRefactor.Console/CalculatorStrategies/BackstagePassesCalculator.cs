@@ -2,7 +2,7 @@ namespace GlideRoseRefactor.Console
 {
     public class BackstagePassesCalculator : GlideRoseCalculator
     {
-        public override void CalculateQuality(Item item)
+        protected override void CalculateQuality(Item item)
         {
             item.Quality += ValueOf.StandardQuality;
             if (item.SellIn <= ValueOf.TenDay)
@@ -11,8 +11,6 @@ namespace GlideRoseRefactor.Console
                 item.Quality += ValueOf.StandardQuality;
             if (item.SellIn <= ValueOf.ZeroDay)
                 item.Quality = ValueOf.MinQuality;
-
-            SetMaxIfQualityGreaterThanMaximum(item);
         }
     }
 }
