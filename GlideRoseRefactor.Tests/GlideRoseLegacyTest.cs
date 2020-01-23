@@ -2,7 +2,6 @@ using System;
 using Xunit;
 using GlideRoseRefactor.Console;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GlideRoseRefactor.Tests
 {
