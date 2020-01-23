@@ -43,46 +43,46 @@ namespace GlideRoseRefactor.Console
 
         void SetZeroQualityIfLowerMinQuality(Item item)
         {
-            if (item.Quality < MinQuality)
-                item.Quality = MinQuality;
+            if (item.Quality < ValueOf.MinQuality)
+                item.Quality = ValueOf.MinQuality;
         }
 
         void SetMaxIfQualityGreaterThanMaximum(Item item)
         {
-            if (item.Quality > MaxQuality)
-                item.Quality = MaxQuality;
+            if (item.Quality > ValueOf.MaxQuality)
+                item.Quality = ValueOf.MaxQuality;
         }
 
         void SetZeroSellInIfLowerThanZero(Item item)
         {
-            if (item.SellIn < ZeroDay)
-                item.SellIn = ZeroDay;
+            if (item.SellIn < ValueOf.ZeroDay)
+                item.SellIn = ValueOf.ZeroDay;
         }
 
         void ReduceSellIn(Item item)
         {
-            item.SellIn -= OneDay;
+            item.SellIn -= ValueOf.OneDay;
             SetZeroSellInIfLowerThanZero(item);
         }
 
         void DecreaseQuality(Item item)
         {
             ReduceSellIn(item);
-            item.Quality -= StandardQuality;
+            item.Quality -= ValueOf.StandardQuality;
             SetZeroQualityIfLowerMinQuality(item);
         }
 
         void DecreaseQualityTwice(Item item)
         {
             ReduceSellIn(item);
-            item.Quality = item.Quality - (StandardQuality * 2);
+            item.Quality = item.Quality - (ValueOf.StandardQuality * 2);
             SetZeroQualityIfLowerMinQuality(item);
         }
 
         void IncreaseQuality(Item item)
         {
             ReduceSellIn(item);
-            item.Quality += StandardQuality;
+            item.Quality += ValueOf.StandardQuality;
             SetMaxIfQualityGreaterThanMaximum(item);
         }
 
@@ -90,23 +90,15 @@ namespace GlideRoseRefactor.Console
         {
             ReduceSellIn(item);
 
-            item.Quality += StandardQuality;
-            if (item.SellIn <= TenDay)
-                item.Quality += StandardQuality;
-            if (item.SellIn <= FiveDay)
-                item.Quality += StandardQuality;
-            if (item.SellIn <= ZeroDay)
-                item.Quality = MinQuality;
+            item.Quality += ValueOf.StandardQuality;
+            if (item.SellIn <= ValueOf.TenDay)
+                item.Quality += ValueOf.StandardQuality;
+            if (item.SellIn <= ValueOf.FiveDay)
+                item.Quality += ValueOf.StandardQuality;
+            if (item.SellIn <= ValueOf.ZeroDay)
+                item.Quality = ValueOf.MinQuality;
 
             SetMaxIfQualityGreaterThanMaximum(item);
         }
-
-        const int MinQuality = 0;
-        const int OneDay = 1;
-        const int StandardQuality = 1;
-        const int TenDay = 10;
-        const int FiveDay = 5;
-        const int ZeroDay = 0;
-        const int MaxQuality = 50;
     }
 }
